@@ -1,0 +1,53 @@
+name: Deploy to EC2
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      # GitHub 저장소의 코드 체크아웃
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # Java 설치
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'openjdk'
+
+      # Gradle 빌드
+      - name: Build with Gradle
+        run: ./gradlew build
+
+      # .env 파일 생성
+      - name: Create .env file
+        run: |
+          echo "${{ secrets.ENV_FILE }}" > .env
+        
+      # EC2 SSH 키 base64 디코딩 → .pem 파일로 저장
+      - name: Decode SSH Key
+        run: |
+          echo "${{ secrets.EC2_KEY }}" | base64 -d > ec2_key.pem
+          chmod 400 ec2_key.pem
+        
+      # 프로젝트 전체를 EC2로 전송
+      - name: Copy project to EC2
+        run: |
+          rsync -avz -e "ssh -i ec2_key.pem -o StrictHostKeyChecking=no" ./ ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }}:${{ secrets.PROJECT_DIR || '/home/ubuntu/riize-streaming' }}
+        
+      # EC2에 SSH 접속 → 기존 컨테이너/이미지 정리 + 새로 빌드 및 실행
+      - name: SSH and Deploy
+        run: |
+           ssh -i ec2_key.pem -o StrictHostKeyChecking=no ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }} << 'EOF'
+             cd ${{ secrets.PROJECT_DIR || '/home/ubuntu/riize-streaming' }}
+
+             echo "새로 빌드 및 배포"
+             docker-compose build --no-cache
+             docker-compose up -d
+           EOF
