@@ -6,6 +6,9 @@ WORKDIR /app
 #jar 파일을 app.jar로 /app 디렉토리에 복사
 COPY . .
 
+# gradlew에 실행 권한 부여
+RUN chmod +x ./gradlew
+
 # Gradle 빌드 수행 (캐시 방지 위해 --no-daemon)
 RUN ./gradlew build --no-daemon
 
