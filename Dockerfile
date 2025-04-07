@@ -10,7 +10,7 @@ COPY . .
 RUN chmod +x ./gradlew
 
 # Gradle 빌드 수행 (캐시 방지 위해 --no-daemon)
-RUN ./gradlew build --no-daemon
+RUN ./gradlew bootJar --no-daemon
 
 # 빌드된 JAR 파일을 app.jar로 복사
 RUN cp build/libs/*.jar app.jar
