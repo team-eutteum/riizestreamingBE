@@ -1,0 +1,41 @@
+version: '3.8'
+
+services:
+  riizeStreaming-backend:
+    container_name: riizeStreaming-backend
+    restart: unless-stopped
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    depends_on:
+      - database
+    networks:
+      - riizeStreaming_network
+
+  database:
+    container_name: mariadb
+    image: mariadb:latest
+    ports:
+      - "3306:3306"
+    volumes:
+      - "mariadb_data:/var/lib/mysql"
+    environment:
+      TZ: Asia/Seoul
+      MARIADB_USER: ${mariadb_user}
+      MARIADB_PASSWORD: ${mariadb_password}
+      MARIADB_ROOT_PASSWORD: ${mariadb_root_password}
+      MARIADB_DATABASE: ${database_name}
+    networks:
+      - riizeStreaming_network
+    restart: always
+
+volumes:
+  mariadb_data:
+
+networks:
+  riizeStreaming_network:
+    name: riizeStreaming_network
+    driver: bridge
+    external: true
