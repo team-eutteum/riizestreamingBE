@@ -14,21 +14,6 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      # Java 설치
-      - name: Set up JDK 17
-        uses: actions/setup-java@v4
-        with:
-          java-version: '17'
-          distribution: 'temurin'
-
-      #./gradlew 권한 부여
-      - name: Grant execute permission for gradlew
-        run: chmod +x gradlew
-
-      # Gradle 빌드
-      - name: Build with Gradle
-        run: ./gradlew build
-
       # .env 파일 생성
       - name: Create .env file
         run: |
