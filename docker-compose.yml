@@ -1,8 +1,8 @@
 version: '3.8'
 
 services:
-  riizeStreaming-backend:
-    container_name: riizeStreaming-backend
+  riizestreaming-backend:
+    container_name: riizestreaming-backend
     restart: unless-stopped
     build:
       context: .
