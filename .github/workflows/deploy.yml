@@ -40,18 +40,23 @@ jobs:
           echo "${{ secrets.EC2_KEY }}" | base64 -d > ec2_key.pem
           chmod 400 ec2_key.pem
         
-      # 프로젝트 전체를 EC2로 전송
-      - name: Copy project to EC2
+      # 프로젝트를 EC2로 전송
+      - name: Copy project to EC2 (with minimal files)
         run: |
-          rsync -avz -e "ssh -i ec2_key.pem -o StrictHostKeyChecking=no" ./ ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }}:${{ secrets.PROJECT_DIR || '/home/ubuntu/riize-streaming' }}
+          rsync -avz \
+            --exclude='.git' \
+            --exclude='build/' \
+            --exclude='.gradle' \
+            -e "ssh -i ec2_key.pem -o StrictHostKeyChecking=no" \
+            ./ ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }}:${{ secrets.PROJECT_DIR }}
         
-      # EC2에 SSH 접속 → 기존 컨테이너/이미지 정리 + 새로 빌드 및 실행
+      # EC2에 SSH 접속 → 새로 빌드 및 실행
       - name: SSH and Deploy
         run: |
-           ssh -i ec2_key.pem -o StrictHostKeyChecking=no ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }} << 'EOF'
-             cd ${{ secrets.PROJECT_DIR || '/home/ubuntu/riize-streaming' }}
+          ssh -i ec2_key.pem -o StrictHostKeyChecking=no ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }} << 'EOF'
+            cd ${{ secrets.PROJECT_DIR }}
 
-             echo "새로 빌드 및 배포"
-             docker-compose build --no-cache
-             docker-compose up -d
-           EOF
+            echo "🛠️ 도커 빌드 및 실행"
+            docker-compose build --no-cache
+            docker-compose up -d
+          EOF
