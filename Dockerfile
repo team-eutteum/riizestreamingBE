@@ -1,4 +1,4 @@
-FROM openjdk:17
+FROM azul/zulu-openjdk:17-latest
 
 #컨테이너 내 작업 디렉토리 /app으로 지정
 WORKDIR /app
