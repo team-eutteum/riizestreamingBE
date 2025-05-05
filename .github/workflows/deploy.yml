@@ -18,7 +18,11 @@ jobs:
       - name: Create .env file
         run: |
           echo "${{ secrets.ENV_FILE }}" > .env
-        
+
+      - name: Create application-key.yml file
+        run: |
+          echo "${{ secrets.APPLICATION_KEY }}" > ./src/main/resources/application-key.yml
+
       # EC2 SSH 키 base64 디코딩 → .pem 파일로 저장
       - name: Decode SSH Key
         run: |
