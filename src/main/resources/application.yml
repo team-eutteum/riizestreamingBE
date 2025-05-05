@@ -1,16 +1,14 @@
-#spring:
-#  autoconfigure:
-#    exclude: org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
-#  mvc:
-#    pathmatch:
-#      matching-strategy: ant_path_matcher
-
 spring:
-  datasource:
-    url: jdbc:mariadb://localhost:3306/riizestrm
-    username: riizestrm
-    password: riizestrm
-    driver-class-name: org.mariadb.jdbc.Driver
+  profiles:
+    active: server
+    group:
+      local:
+        - db-local
+      server:
+        - db-server
+    include:
+      - key
+      - db
 
   jpa:
     hibernate:
@@ -23,15 +21,10 @@ spring:
         default_batch_fetch_size: 100
     database-platform: org.hibernate.dialect.MariaDBDialect
 
-
 springdoc:
   swagger-ui:
     path: /swagger-ui.html
     display-request-duration: true
-
-#logging:
-#  level:
-#    com.app.chart: DEBUG
 
 logging:
   level:
