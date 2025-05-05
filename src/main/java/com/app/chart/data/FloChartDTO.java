@@ -3,10 +3,12 @@ package com.app.chart.data;
 import com.jpa.entity.FloChart;
 import com.jpa.entity.GenieChart;
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 import lombok.ToString;
 
 @ToString
 @AllArgsConstructor
+@Getter
 public class FloChartDTO {
 
     private String title;

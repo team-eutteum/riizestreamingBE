@@ -3,10 +3,12 @@ package com.app.chart.data;
 import com.jpa.entity.GenieChart;
 import com.jpa.entity.MelonChart;
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 import lombok.ToString;
 
 @ToString
 @AllArgsConstructor
+@Getter
 public class GenieChartDTO {
 
     private String title;
