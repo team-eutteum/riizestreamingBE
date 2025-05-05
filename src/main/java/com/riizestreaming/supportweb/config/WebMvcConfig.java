@@ -1,13 +1,9 @@
-package com.global.config;
+package com.riizestreaming.supportweb.config;
 
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-import java.util.List;
-
-@Slf4j
 @Configuration
 public class WebMvcConfig implements WebMvcConfigurer {
 
@@ -21,7 +17,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
                         "https://api.riizestreaming.com",
                         "http://localhost:3000",
                         "https://localhost:3000"
-                ) //허용할 출처
+                )
                 .allowedMethods("GET");
     }
 }
