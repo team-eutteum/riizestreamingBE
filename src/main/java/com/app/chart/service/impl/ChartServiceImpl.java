@@ -27,16 +27,30 @@ public class ChartServiceImpl implements ChartService {
 
     @Override
     public List<MelonChartDTO> getMelonChartsByType(MelonChartType chartType) {
-        List<MelonChart> charts = melonChartRepository.findByChartType(chartType);
+        //List<MelonChart> charts = melonChartRepository.findByChartType(chartType);
+
+        String chartTypeStr = chartType.name();
+        List<MelonChart> charts = melonChartRepository.findLatestChartsByType(chartTypeStr);
 
         return charts.stream()
                 .map(MelonChartDTO::fromEntity)
                 .collect(Collectors.toList());
+
+        /*return charts.stream()
+                .map(MelonChartDTO::fromEntity)
+                .collect(Collectors.toList());*/
     }
 
     @Override
     public List<GenieChartDTO> getGenieChartsByType(GenieChartType chartType) {
-        List<GenieChart> charts = genieChartRepository.findByChartType(chartType);
+        /*List<GenieChart> charts = genieChartRepository.findByChartType(chartType);
+        return charts.stream()
+                .map(GenieChartDTO::fromEntity)
+                .collect(Collectors.toList());*/
+
+        String chartTypeStr = chartType.name();
+        List<GenieChart> charts = genieChartRepository.findLatestChartsByType(chartTypeStr);
+
         return charts.stream()
                 .map(GenieChartDTO::fromEntity)
                 .collect(Collectors.toList());
@@ -44,7 +58,14 @@ public class ChartServiceImpl implements ChartService {
 
     @Override
     public List<FloChartDTO> getFloChartsByType(FloChartType chartType) {
-        List<FloChart> charts = floChartRepository.findByChartType(chartType);
+        /*List<FloChart> charts = floChartRepository.findByChartType(chartType);
+
+        return charts.stream()
+                .map(FloChartDTO::fromEntity)
+                .collect(Collectors.toList());*/
+
+        String chartTypeStr = chartType.name();
+        List<FloChart> charts = floChartRepository.findLatestChartsByType(chartTypeStr);
 
         return charts.stream()
                 .map(FloChartDTO::fromEntity)
@@ -53,11 +74,20 @@ public class ChartServiceImpl implements ChartService {
 
     @Override
     public List<BugsChartDTO> getBugsChartsByType(BugsChartType chartType) {
-        List<BugsChart> charts = bugsChartRepository.findByChartType(chartType);
+        //List<BugsChart> charts = bugsChartRepository.findByChartType(chartType);
+
+        /*return charts.stream()
+                .map(BugsChartDTO::fromEntity)
+                .collect(Collectors.toList());*/
+
+        String chartTypeStr = chartType.name();
+        List<BugsChart> charts = bugsChartRepository.findLatestChartsByType(chartTypeStr);
 
         return charts.stream()
                 .map(BugsChartDTO::fromEntity)
                 .collect(Collectors.toList());
+
+
     }
 
 }
