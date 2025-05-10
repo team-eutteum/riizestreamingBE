@@ -14,7 +14,7 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/chart/melon")
+@RequestMapping("/api/charts/melon")
 public class MelonChartController {
 
     private final ChartService chartService;
