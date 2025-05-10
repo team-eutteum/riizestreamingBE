@@ -2,40 +2,46 @@ package com.jpa.entity;
 
 import com.jpa.entity.chartType.FloChartType;
 import com.jpa.entity.chartType.MelonChartType;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import jakarta.persistence.*;
+
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "flo_chart")
 @Getter
-@Setter
 @NoArgsConstructor
+@AllArgsConstructor
 public class FloChart {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+    @Column(nullable = false)
     private String title;
+
+    @Column(nullable = false)
     private String artist;
+
+    @Column(nullable = false)
     private String album;
 
     @Column(name = "album_image_url")
     private String albumImageUrl;
 
-    @Column(name = "`change`")
-    private String change;
-
+    @Column(nullable = false)
     private Integer rank;
 
+    @Column
+    private String change;
+
+    @Column(name = "chart_type", nullable = false)
     @Enumerated(EnumType.STRING)
-    @Column(name = "chart_type")
     private FloChartType chartType;
 
     @Column(name = "crawled_at")
-    private LocalDateTime crawledAt;
+    private Timestamp crawledAt;
 }

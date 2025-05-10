@@ -1,6 +1,7 @@
 package com.jpa.entity;
 
 import com.jpa.entity.chartType.MelonChartType;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -14,13 +15,14 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Table;
 
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "melon_chart")
 @Getter
-@Setter
 @NoArgsConstructor
+@AllArgsConstructor
 public class MelonChart {
 
     @Id
@@ -30,13 +32,19 @@ public class MelonChart {
     @Column(name = "song_id")
     private Long songId;
 
+    @Column(nullable = false)
     private String title;
+
+    @Column(nullable = false)
     private String artist;
+
+    @Column(nullable = false)
     private String album;
 
     @Column(name = "album_image_url")
     private String albumImageUrl;
 
+    @Column(nullable = false)
     private Integer rank;
 
     @Column(name = "`change`")
@@ -50,5 +58,5 @@ public class MelonChart {
     private MelonChartType chartType;
 
     @Column(name = "crawled_at")
-    private LocalDateTime crawledAt;
+    private Timestamp crawledAt;
 }
