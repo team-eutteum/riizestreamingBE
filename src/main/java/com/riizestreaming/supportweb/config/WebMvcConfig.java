@@ -13,6 +13,8 @@ public class WebMvcConfig implements WebMvcConfigurer {
 
         registry.addMapping("/**")
                 .allowedOrigins( //허용할 출처
+                        "http://www.riizestreaming.com",
+                        "https://www.riizestreaming.com",
                         "http://api.riizestreaming.com",
                         "https://api.riizestreaming.com",
                         "http://localhost:3000",
