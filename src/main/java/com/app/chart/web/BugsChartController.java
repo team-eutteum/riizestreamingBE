@@ -1,10 +1,8 @@
 package com.app.chart.web;
 
 import com.app.chart.data.BugsChartDTO;
-import com.app.chart.data.MelonChartDTO;
 import com.app.chart.service.ChartService;
 import com.jpa.entity.chartType.BugsChartType;
-import com.jpa.entity.chartType.MelonChartType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;

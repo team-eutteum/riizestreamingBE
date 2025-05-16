@@ -1,9 +1,7 @@
 package com.jpa.repository;
 
 import com.jpa.entity.BugsChart;
-import com.jpa.entity.MelonChart;
 import com.jpa.entity.chartType.BugsChartType;
-import com.jpa.entity.chartType.MelonChartType;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
@@ -14,10 +12,9 @@ import java.util.List;
 
 @EnableJpaRepositories("com.jpa.repository")
 @Repository
-public interface BugsChartRepository extends JpaRepository<BugsChart, Integer> {
-    //List<BugsChart> findByChartType(BugsChartType chartType);
+public interface BugsChartRepository extends JpaRepository<BugsChart, Integer>, BugsChartRepositoryCustom {
 
-    @Query(value = "WITH latest_hour AS (" +
+/*    @Query(value = "WITH latest_hour AS (" +
             "SELECT DATE_FORMAT(crawled_at, '%Y-%m-%d %H:00:00') AS hour_group " +
             "FROM bugs_chart " +
             "WHERE chart_type = :chartType " +
@@ -28,6 +25,6 @@ public interface BugsChartRepository extends JpaRepository<BugsChart, Integer> {
             "JOIN latest_hour lh ON DATE_FORMAT(bc.crawled_at, '%Y-%m-%d %H:00:00') = lh.hour_group " +
             "WHERE bc.chart_type = :chartType " +
             "ORDER BY bc.rank ASC", nativeQuery = true)
-    List<BugsChart> findLatestChartsByType(@Param("chartType") String chartType);
+    List<BugsChart> findLatestChartsByType(@Param("chartType") String chartType);*/
 
 }

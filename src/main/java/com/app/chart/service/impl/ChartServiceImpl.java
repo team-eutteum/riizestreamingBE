@@ -74,19 +74,12 @@ public class ChartServiceImpl implements ChartService {
 
     @Override
     public List<BugsChartDTO> getBugsChartsByType(BugsChartType chartType) {
-        //List<BugsChart> charts = bugsChartRepository.findByChartType(chartType);
-
-        /*return charts.stream()
-                .map(BugsChartDTO::fromEntity)
-                .collect(Collectors.toList());*/
-
         String chartTypeStr = chartType.name();
-        List<BugsChart> charts = bugsChartRepository.findLatestChartsByType(chartTypeStr);
+        List<BugsChart> charts = bugsChartRepository.findCurrentChartsByType(chartTypeStr);
 
         return charts.stream()
                 .map(BugsChartDTO::fromEntity)
                 .collect(Collectors.toList());
-
 
     }
 
