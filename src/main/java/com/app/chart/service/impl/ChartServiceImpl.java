@@ -58,14 +58,8 @@ public class ChartServiceImpl implements ChartService {
 
     @Override
     public List<FloChartDTO> getFloChartsByType(FloChartType chartType) {
-        /*List<FloChart> charts = floChartRepository.findByChartType(chartType);
-
-        return charts.stream()
-                .map(FloChartDTO::fromEntity)
-                .collect(Collectors.toList());*/
-
         String chartTypeStr = chartType.name();
-        List<FloChart> charts = floChartRepository.findLatestChartsByType(chartTypeStr);
+        List<FloChart> charts = floChartRepository.findCurrentChartsByType(chartTypeStr);
 
         return charts.stream()
                 .map(FloChartDTO::fromEntity)
