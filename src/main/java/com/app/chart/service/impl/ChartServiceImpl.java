@@ -43,13 +43,8 @@ public class ChartServiceImpl implements ChartService {
 
     @Override
     public List<GenieChartDTO> getGenieChartsByType(GenieChartType chartType) {
-        /*List<GenieChart> charts = genieChartRepository.findByChartType(chartType);
-        return charts.stream()
-                .map(GenieChartDTO::fromEntity)
-                .collect(Collectors.toList());*/
-
         String chartTypeStr = chartType.name();
-        List<GenieChart> charts = genieChartRepository.findLatestChartsByType(chartTypeStr);
+        List<GenieChart> charts = genieChartRepository.findCurrentChartsByType(chartTypeStr);
 
         return charts.stream()
                 .map(GenieChartDTO::fromEntity)

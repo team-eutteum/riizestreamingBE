@@ -1,0 +1,81 @@
+package com.jpa.repository.impl;
+
+import static com.jpa.entity.QGenieChart.genieChart;
+
+import com.jpa.entity.GenieChart;
+import com.jpa.entity.chartType.GenieChartType;
+import com.jpa.repository.GenieChartRepositoryCustom;
+import com.querydsl.core.BooleanBuilder;
+import com.querydsl.jpa.impl.JPAQueryFactory;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Repository;
+
+import java.sql.Timestamp;
+import java.time.DayOfWeek;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.temporal.TemporalAdjusters;
+import java.util.List;
+
+@Repository
+@RequiredArgsConstructor
+@Slf4j
+public class GenieChartRepositoryCustomImpl implements GenieChartRepositoryCustom {
+
+    private final JPAQueryFactory jpaQueryFactory;
+
+    @Override
+    public List<GenieChart> findCurrentChartsByType(String chartType) {
+        BooleanBuilder booleanBuilder = generateQueryCondition(chartType);
+
+        return jpaQueryFactory.select(genieChart)
+                .from(genieChart)
+                .where(booleanBuilder)
+                .orderBy(genieChart.rank.asc())
+                .fetch();
+    }
+
+    //realtime, day, week, month, total
+    private BooleanBuilder generateQueryCondition(String chartType){
+        BooleanBuilder booleanBuilder = new BooleanBuilder();
+        booleanBuilder.and(genieChart.chartType.eq(GenieChartType.valueOf(chartType)));
+
+        switch (chartType) {
+            case "realtime" -> { //실시간 차트
+                LocalDateTime now = LocalDateTime.now();
+                LocalDateTime startOfHour = now.withMinute(0).withSecond(0).withNano(0);
+                LocalDateTime endOfHour = startOfHour.plusHours(1);
+
+                booleanBuilder.and(genieChart.crawledAt.goe(Timestamp.valueOf(startOfHour)));
+                booleanBuilder.and(genieChart.crawledAt.lt(Timestamp.valueOf(endOfHour)));
+            }
+            case "day" -> { //일간 차트
+                LocalDate today = LocalDate.now();
+                LocalDateTime startOfDay = today.atStartOfDay();
+                LocalDateTime endOfDay = startOfDay.plusDays(1);
+
+                booleanBuilder.and(genieChart.crawledAt.goe(Timestamp.valueOf(startOfDay)));
+                booleanBuilder.and(genieChart.crawledAt.lt(Timestamp.valueOf(endOfDay)));
+            }
+            case "week" -> { //주간 차트
+                LocalDate now = LocalDate.now();
+                LocalDateTime startOfWeek = now.with(TemporalAdjusters.previousOrSame(java.time.DayOfWeek.MONDAY)).atStartOfDay();
+                LocalDateTime endOfWeek = now.with(TemporalAdjusters.next(DayOfWeek.MONDAY)).atStartOfDay();
+
+                booleanBuilder.and(genieChart.crawledAt.goe(Timestamp.valueOf(startOfWeek)));
+                booleanBuilder.and(genieChart.crawledAt.lt(Timestamp.valueOf(endOfWeek)));
+            }
+            case "month" -> { //월간차트
+                LocalDate now = LocalDate.now();
+                LocalDate startOfMonth = now.withDayOfMonth(1);
+                LocalDateTime endOfMonth = now.withDayOfMonth(startOfMonth.lengthOfMonth()).plusDays(1).atStartOfDay();
+
+                booleanBuilder.and(genieChart.crawledAt.goe(Timestamp.valueOf(startOfMonth.atStartOfDay())));
+                booleanBuilder.and(genieChart.crawledAt.lt(Timestamp.valueOf(endOfMonth)));
+            }
+        }
+
+        return booleanBuilder;
+    }
+}
