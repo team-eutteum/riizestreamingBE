@@ -12,10 +12,9 @@ import java.util.List;
 
 @EnableJpaRepositories("com.jpa.repository")
 @Repository
-public interface MelonChartRepository extends JpaRepository<MelonChart, Integer> {
-    //List<MelonChart> findByChartType(MelonChartType chartType);
+public interface MelonChartRepository extends JpaRepository<MelonChart, Integer>, MelonChartRepositoryCustom {
 
-    @Query(value = "WITH latest_hour AS (" +
+  /*  @Query(value = "WITH latest_hour AS (" +
             "SELECT DATE_FORMAT(crawled_at, '%Y-%m-%d %H:00:00') AS hour_group " +
             "FROM melon_chart " +
             "WHERE chart_type = :chartType " +
@@ -26,5 +25,5 @@ public interface MelonChartRepository extends JpaRepository<MelonChart, Integer>
             "JOIN latest_hour lh ON DATE_FORMAT(mc.crawled_at, '%Y-%m-%d %H:00:00') = lh.hour_group " +
             "WHERE mc.chart_type = :chartType " +
             "ORDER BY mc.rank ASC", nativeQuery = true)
-    List<MelonChart> findLatestChartsByType(@Param("chartType") String chartType);
+    List<MelonChart> findLatestChartsByType(@Param("chartType") String chartType);*/
 }

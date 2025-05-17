@@ -27,18 +27,12 @@ public class ChartServiceImpl implements ChartService {
 
     @Override
     public List<MelonChartDTO> getMelonChartsByType(MelonChartType chartType) {
-        //List<MelonChart> charts = melonChartRepository.findByChartType(chartType);
-
         String chartTypeStr = chartType.name();
-        List<MelonChart> charts = melonChartRepository.findLatestChartsByType(chartTypeStr);
+        List<MelonChart> charts = melonChartRepository.findCurrentChartsByType(chartTypeStr);
 
         return charts.stream()
                 .map(MelonChartDTO::fromEntity)
                 .collect(Collectors.toList());
-
-        /*return charts.stream()
-                .map(MelonChartDTO::fromEntity)
-                .collect(Collectors.toList());*/
     }
 
     @Override
