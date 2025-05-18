@@ -20,7 +20,7 @@ import java.util.List;
 @Repository
 @RequiredArgsConstructor
 @Slf4j
-public class MelonChartRepositoryCustom implements com.jpa.repository.MelonChartRepositoryCustom {
+public class MelonChartRepositoryCustomImpl implements com.jpa.repository.MelonChartRepositoryCustom {
 
     private final JPAQueryFactory jpaQueryFactory;
 
