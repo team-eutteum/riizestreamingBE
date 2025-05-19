@@ -44,7 +44,7 @@ public class BugsChartRepositoryCustomImpl implements BugsChartRepositoryCustom 
             case "realtime" -> {
                 LocalDateTime now = LocalDateTime.now();
 
-                if(now.getMinute() >= 0 && now.getMinute() <= 4){ //0~5분 사이일 경우
+                if(now.getMinute() <= 4){ //0~5분 사이일 경우
                     LocalDateTime startOfHour = now.minusHours(1).withMinute(5).withSecond(0).withNano(0);
                     LocalDateTime endOfHour = startOfHour.plusHours(1);
 

@@ -44,8 +44,16 @@ public class GenieChartRepositoryCustomImpl implements GenieChartRepositoryCusto
         switch (chartType) {
             case "realtime" -> { //실시간 차트
                 LocalDateTime now = LocalDateTime.now();
-                LocalDateTime startOfHour = now.withMinute(1).withSecond(0).withNano(0);
-                LocalDateTime endOfHour = startOfHour.plusHours(1);
+                LocalDateTime startOfHour;
+                LocalDateTime endOfHour;
+
+                if(now.getMinute() <= 1){ //0~1분 사이일 경우: 이전 시간 데이터 제공
+                    startOfHour = now.minusHours(1).withMinute(1).withSecond(0).withNano(0);
+                } else { //1분 이후: 현재 시간 기준 1분부터 1시간 간격
+                    startOfHour = now.withMinute(1).withSecond(0).withNano(0);
+                }
+
+                endOfHour = startOfHour.plusHours(1);
 
                 booleanBuilder.and(genieChart.crawledAt.goe(Timestamp.valueOf(startOfHour)));
                 booleanBuilder.and(genieChart.crawledAt.lt(Timestamp.valueOf(endOfHour)));
