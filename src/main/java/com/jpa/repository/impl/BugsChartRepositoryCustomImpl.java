@@ -43,11 +43,27 @@ public class BugsChartRepositoryCustomImpl implements BugsChartRepositoryCustom 
         switch (chartType) {
             case "realtime" -> {
                 LocalDateTime now = LocalDateTime.now();
-                LocalDateTime startOfHour = now.withMinute(5).withSecond(0).withNano(0);
-                LocalDateTime endOfHour = startOfHour.plusHours(1);
 
-                booleanBuilder.and(bugsChart.crawledAt.goe(Timestamp.valueOf(startOfHour)));
-                booleanBuilder.and(bugsChart.crawledAt.lt(Timestamp.valueOf(endOfHour)));
+                if(now.getMinute() >= 0 && now.getMinute() <= 4){ //0~5분 사이일 경우
+                    LocalDateTime startOfHour = now.minusHours(1).withMinute(5).withSecond(0).withNano(0);
+                    LocalDateTime endOfHour = startOfHour.plusHours(1);
+
+                    log.info(String.valueOf(startOfHour));
+                    log.info(String.valueOf(endOfHour));
+
+                    booleanBuilder.and(bugsChart.crawledAt.goe(Timestamp.valueOf(startOfHour)));
+                    booleanBuilder.and(bugsChart.crawledAt.lt(Timestamp.valueOf(endOfHour)));
+
+                } else { //5분 이후일 경우
+                    LocalDateTime startOfHour = now.withMinute(5).withSecond(0).withNano(0);
+                    LocalDateTime endOfHour = startOfHour.plusHours(1);
+
+                    log.info(String.valueOf(startOfHour));
+                    log.info(String.valueOf(endOfHour));
+
+                    booleanBuilder.and(bugsChart.crawledAt.goe(Timestamp.valueOf(startOfHour)));
+                    booleanBuilder.and(bugsChart.crawledAt.lt(Timestamp.valueOf(endOfHour)));
+                }
             }
             case "day" -> {
                 LocalDate today = LocalDate.now();
