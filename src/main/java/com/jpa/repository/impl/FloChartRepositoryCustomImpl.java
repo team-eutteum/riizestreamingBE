@@ -39,7 +39,7 @@ public class FloChartRepositoryCustomImpl implements FloChartRepositoryCustom {
 
         if (chartType.equals("realtime")) {
             LocalDateTime now = LocalDateTime.now();
-            LocalDateTime startOfHour = now.withMinute(0).withSecond(0).withNano(0);
+            LocalDateTime startOfHour = now.withMinute(1).withSecond(0).withNano(0);
             LocalDateTime endOfHour = startOfHour.plusHours(1);
 
             booleanBuilder.and(floChart.crawledAt.goe(Timestamp.valueOf(startOfHour)));

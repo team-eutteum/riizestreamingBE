@@ -43,7 +43,7 @@ public class BugsChartRepositoryCustomImpl implements BugsChartRepositoryCustom 
         switch (chartType) {
             case "realtime" -> {
                 LocalDateTime now = LocalDateTime.now();
-                LocalDateTime startOfHour = now.withMinute(0).withSecond(0).withNano(0);
+                LocalDateTime startOfHour = now.withMinute(5).withSecond(0).withNano(0);
                 LocalDateTime endOfHour = startOfHour.plusHours(1);
 
                 booleanBuilder.and(bugsChart.crawledAt.goe(Timestamp.valueOf(startOfHour)));
@@ -51,7 +51,7 @@ public class BugsChartRepositoryCustomImpl implements BugsChartRepositoryCustom 
             }
             case "day" -> {
                 LocalDate today = LocalDate.now();
-                LocalDateTime startOfDay = today.atStartOfDay();
+                LocalDateTime startOfDay = today.atStartOfDay().withMinute(1);
                 LocalDateTime endOfDay = startOfDay.plusDays(1);
 
                 booleanBuilder.and(bugsChart.crawledAt.goe(Timestamp.valueOf(startOfDay)));
@@ -59,8 +59,8 @@ public class BugsChartRepositoryCustomImpl implements BugsChartRepositoryCustom 
             }
             case "week" -> {
                 LocalDate now = LocalDate.now();
-                LocalDateTime startOfWeek = now.with(TemporalAdjusters.previousOrSame(java.time.DayOfWeek.MONDAY)).atStartOfDay();
-                LocalDateTime endOfWeek = now.with(TemporalAdjusters.next(DayOfWeek.MONDAY)).atStartOfDay();
+                LocalDateTime startOfWeek = now.with(TemporalAdjusters.previousOrSame(java.time.DayOfWeek.MONDAY)).atStartOfDay().withMinute(1);
+                LocalDateTime endOfWeek = now.with(TemporalAdjusters.next(DayOfWeek.MONDAY)).atStartOfDay().withMinute(1);
 
                 booleanBuilder.and(bugsChart.crawledAt.goe(Timestamp.valueOf(startOfWeek)));
                 booleanBuilder.and(bugsChart.crawledAt.lt(Timestamp.valueOf(endOfWeek)));

@@ -44,7 +44,7 @@ public class GenieChartRepositoryCustomImpl implements GenieChartRepositoryCusto
         switch (chartType) {
             case "realtime" -> { //실시간 차트
                 LocalDateTime now = LocalDateTime.now();
-                LocalDateTime startOfHour = now.withMinute(0).withSecond(0).withNano(0);
+                LocalDateTime startOfHour = now.withMinute(1).withSecond(0).withNano(0);
                 LocalDateTime endOfHour = startOfHour.plusHours(1);
 
                 booleanBuilder.and(genieChart.crawledAt.goe(Timestamp.valueOf(startOfHour)));
@@ -52,7 +52,7 @@ public class GenieChartRepositoryCustomImpl implements GenieChartRepositoryCusto
             }
             case "day" -> { //일간 차트
                 LocalDate today = LocalDate.now();
-                LocalDateTime startOfDay = today.atStartOfDay();
+                LocalDateTime startOfDay = today.atStartOfDay().withMinute(1);
                 LocalDateTime endOfDay = startOfDay.plusDays(1);
 
                 booleanBuilder.and(genieChart.crawledAt.goe(Timestamp.valueOf(startOfDay)));
@@ -60,8 +60,8 @@ public class GenieChartRepositoryCustomImpl implements GenieChartRepositoryCusto
             }
             case "week" -> { //주간 차트
                 LocalDate now = LocalDate.now();
-                LocalDateTime startOfWeek = now.with(TemporalAdjusters.previousOrSame(java.time.DayOfWeek.MONDAY)).atStartOfDay();
-                LocalDateTime endOfWeek = now.with(TemporalAdjusters.next(DayOfWeek.MONDAY)).atStartOfDay();
+                LocalDateTime startOfWeek = now.with(TemporalAdjusters.previousOrSame(java.time.DayOfWeek.MONDAY)).atStartOfDay().withMinute(1);
+                LocalDateTime endOfWeek = now.with(TemporalAdjusters.next(DayOfWeek.MONDAY)).atStartOfDay().withMinute(1);
 
                 booleanBuilder.and(genieChart.crawledAt.goe(Timestamp.valueOf(startOfWeek)));
                 booleanBuilder.and(genieChart.crawledAt.lt(Timestamp.valueOf(endOfWeek)));
@@ -69,9 +69,9 @@ public class GenieChartRepositoryCustomImpl implements GenieChartRepositoryCusto
             case "month" -> { //월간차트
                 LocalDate now = LocalDate.now();
                 LocalDate startOfMonth = now.withDayOfMonth(1);
-                LocalDateTime endOfMonth = now.withDayOfMonth(startOfMonth.lengthOfMonth()).plusDays(1).atStartOfDay();
+                LocalDateTime endOfMonth = now.withDayOfMonth(startOfMonth.lengthOfMonth()).plusDays(1).atStartOfDay().withMinute(1);
 
-                booleanBuilder.and(genieChart.crawledAt.goe(Timestamp.valueOf(startOfMonth.atStartOfDay())));
+                booleanBuilder.and(genieChart.crawledAt.goe(Timestamp.valueOf(startOfMonth.atStartOfDay().withMinute(1))));
                 booleanBuilder.and(genieChart.crawledAt.lt(Timestamp.valueOf(endOfMonth)));
             }
         }
