@@ -51,7 +51,7 @@ public class MelonChartRepositoryCustomImpl implements com.jpa.repository.MelonC
                     startOfHour = now.withHour(1).withMinute(1).withSecond(0).withNano(0);
                     endOfHour = startOfHour.plusHours(1);
 
-                } else if(now.getMinute() <= 1){ //0~1분 사이일 경우: 이전 시간 데이터 제공
+                } else if(now.getMinute() < 1){ //0~1분 사이일 경우: 이전 시간 데이터 제공
                     startOfHour = now.minusHours(1).withMinute(1).withSecond(0).withNano(0);
                     endOfHour = startOfHour.plusHours(1);
 

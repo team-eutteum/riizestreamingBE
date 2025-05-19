@@ -47,7 +47,7 @@ public class GenieChartRepositoryCustomImpl implements GenieChartRepositoryCusto
                 LocalDateTime startOfHour;
                 LocalDateTime endOfHour;
 
-                if(now.getMinute() <= 1){ //0~1분 사이일 경우: 이전 시간 데이터 제공
+                if(now.getMinute() < 1){ //0~1분 사이일 경우: 이전 시간 데이터 제공
                     startOfHour = now.minusHours(1).withMinute(1).withSecond(0).withNano(0);
                 } else { //1분 이후: 현재 시간 기준 1분부터 1시간 간격
                     startOfHour = now.withMinute(1).withSecond(0).withNano(0);
