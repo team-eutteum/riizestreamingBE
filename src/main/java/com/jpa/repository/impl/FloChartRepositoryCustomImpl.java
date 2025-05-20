@@ -42,12 +42,8 @@ public class FloChartRepositoryCustomImpl implements FloChartRepositoryCustom {
             LocalDateTime startOfHour;
             LocalDateTime endOfHour;
 
-            if(now.getMinute() < 10){ //0~10분 사이일 경우: 이전 시간 데이터 제공
-                startOfHour = now.minusHours(1).withMinute(10).withSecond(0).withNano(0);
-            } else { //10분 이후: 현재 시간 기준 1분부터 1시간 간격
-                startOfHour = now.withMinute(10).withSecond(0).withNano(0);
-            }
-
+            //0~10분간은 공백 유지 (Flo 차트 갱신시간: 10분)
+            startOfHour = now.withMinute(10).withSecond(0).withNano(0);
             endOfHour = startOfHour.plusHours(1);
 
             booleanBuilder.and(floChart.crawledAt.goe(Timestamp.valueOf(startOfHour)));
