@@ -51,11 +51,7 @@ public class MelonChartRepositoryCustomImpl implements com.jpa.repository.MelonC
                     startOfHour = now.withHour(1).withMinute(1).withSecond(0).withNano(0);
                     endOfHour = startOfHour.plusHours(1);
 
-                } else if(now.getMinute() < 1){ //0~1분 사이일 경우: 이전 시간 데이터 제공
-                    startOfHour = now.minusHours(1).withMinute(1).withSecond(0).withNano(0);
-                    endOfHour = startOfHour.plusHours(1);
-
-                } else { //1분 이후: 현재 시간 기준 1분부터 1시간 간격
+                } else { //1분 이후: 현재 시간 기준 1분부터 1시간 간격(0~1분 공백)
                     startOfHour = now.withMinute(1).withSecond(0).withNano(0);
                     endOfHour = startOfHour.plusHours(1);
                 }
