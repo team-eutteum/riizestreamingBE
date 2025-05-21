@@ -43,10 +43,17 @@ public class BugsChartRepositoryCustomImpl implements BugsChartRepositoryCustom 
         switch (chartType) {
             case "realtime" -> {
                 LocalDateTime now = LocalDateTime.now();
+                LocalDateTime startOfHour;
+                LocalDateTime endOfHour;
 
-                //1분 이후일 경우 (0~1분 사이는 공백유지)
-                LocalDateTime startOfHour = now.withMinute(1).withSecond(0).withNano(0);
-                LocalDateTime endOfHour = startOfHour.plusHours(1);
+                if(now.getHour() >= 2 && now.getHour() < 7){ //02시~ 06시 차트 운영 X -> 1시 차트 데이터 제공
+                    startOfHour = now.withHour(1).withMinute(1).withSecond(0).withNano(0);
+
+                } else { //1분 이후: 현재 시간 기준 1분부터 1시간 간격 (0~1분 사이 공백)
+                    startOfHour = now.withMinute(1).withSecond(0).withNano(0);
+                }
+
+                endOfHour = startOfHour.plusHours(1);
 
                 booleanBuilder.and(bugsChart.crawledAt.goe(Timestamp.valueOf(startOfHour)));
                 booleanBuilder.and(bugsChart.crawledAt.lt(Timestamp.valueOf(endOfHour)));
