@@ -52,8 +52,15 @@ public class BugsChartRepositoryCustomImpl implements BugsChartRepositoryCustom 
                 booleanBuilder.and(bugsChart.crawledAt.lt(Timestamp.valueOf(endOfHour)));
             }
             case "day" -> {
-                LocalDate today = LocalDate.now();
-                LocalDateTime startOfDay = today.atStartOfDay().withMinute(1);
+                LocalDateTime today = LocalDateTime.now();
+                LocalDateTime startOfDay;
+
+                if(today.getHour() < 12){
+                    startOfDay = today.minusDays(1).withHour(12).withMinute(0).withSecond(0).withNano(0);
+                } else {
+                    startOfDay = today.withHour(12).withMinute(0).withSecond(0).withNano(0);
+                }
+
                 LocalDateTime endOfDay = startOfDay.plusDays(1);
 
                 booleanBuilder.and(bugsChart.crawledAt.goe(Timestamp.valueOf(startOfDay)));
