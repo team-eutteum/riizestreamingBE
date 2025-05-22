@@ -63,10 +63,10 @@ public class MelonChartRepositoryCustomImpl implements com.jpa.repository.MelonC
                 LocalDateTime today = LocalDateTime.now();
                 LocalDateTime startOfDay;
 
-                if(today.getHour() < 12){
-                    startOfDay = today.minusDays(1).withHour(12).withMinute(0).withSecond(0).withNano(0);
+                if(today.getHour() < 13){
+                    startOfDay = today.minusDays(1).withHour(13).withMinute(0).withSecond(0).withNano(0);
                 } else {
-                    startOfDay = today.withHour(12).withMinute(0).withSecond(0).withNano(0);
+                    startOfDay = today.withHour(13).withMinute(0).withSecond(0).withNano(0);
                 }
 
                 LocalDateTime endOfDay = startOfDay.plusDays(1);
